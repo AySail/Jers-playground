@@ -30,7 +30,7 @@ Modding is a way of adding new stuff to Jer’s Playground games — whether it�
 
 If you made something cool or fixed something broken, feel free to open a pull request!
 
-> 📜 **License**  
+> ⚠️ **License**  
 > This project is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).  
 > Feel free to remix, share, or mod — just **credit**, **don’t sell**, and **link back** to this repo!
 
