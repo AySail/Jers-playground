@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../GM"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Jers playground"
+	}
+}

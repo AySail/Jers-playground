@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Click Challenge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fef9e7;
+      height: 100vh;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stats {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    #clickBtn {
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+      background: #ffd966;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    #clickBtn:active {
+      transform: scale(0.95);
+    }
+
+    #clickBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    #restartBtn {
+      margin-top: 2rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      background: #ffb347;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    #restartBtn:hover {
+      background: #ffa726;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Click Challenge</h1>
+  <p>Click the button as fast as you can in <strong>5 seconds!</strong></p>
+
+  <div class="stats">
+    ⏱️ Time Left: <span id="time">5</span> seconds<br/>
+    👆 Clicks: <span id="clicks">0</span>
+  </div>
+
+  <button id="clickBtn">Click me!</button>
+  <button id="restartBtn">🔄 Try Again</button>
+
+  <footer>
+    <p>Built for Jer's Playground</p>
+  </footer>
+
+  <script>
+    let timeLeft = 5;
+    let clicks = 0;
+    let timer;
+    let started = false;
+
+    const timeDisplay = document.getElementById("time");
+    const clickDisplay = document.getElementById("clicks");
+    const clickBtn = document.getElementById("clickBtn");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function startGame() {
+      if (started) return;
+      started = true;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          clickBtn.disabled = true;
+          restartBtn.style.display = "inline-block";
+        }
+      }, 1000);
+    }
+
+    clickBtn.addEventListener("click", () => {
+      if (!started) startGame();
+      clicks++;
+      clickDisplay.textContent = clicks;
+    });
+
+    restartBtn.addEventListener("click", () => {
+      // Reset game state
+      timeLeft = 5;
+      clicks = 0;
+      started = false;
+      timeDisplay.textContent = timeLeft;
+      clickDisplay.textContent = clicks;
+      clickBtn.disabled = false;
+      restartBtn.style.display = "none";
+    });
+  </script>
+</body>
+</html>

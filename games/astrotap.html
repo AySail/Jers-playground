@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Astro Tap - Jer's Playground</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: radial-gradient(circle at center, #1e3c72, #2a5298);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    .planet {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff6a00, #ee0979);
+      margin: 2rem auto;
+      cursor: pointer;
+      box-shadow: 0 0 20px #ff6a00;
+      transition: transform 0.2s;
+      user-select: none;
+    }
+    .planet:active {
+      transform: scale(1.3);
+      box-shadow: 0 0 40px #ff6a00;
+    }
+    .score {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255 255 255 / 0.3);
+      color: #ccc;
+    }
+    footer blockquote {
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>🪐 Astro Tap</h1>
+    <div class="planet" id="planet" title="Tap me!"></div>
+    <div class="score">Score: <span id="score">0</span></div>
+  </div>
+
+  <footer>
+    <p>Made by Jer</p>
+    <blockquote>“A playground is whatever you find your creative inside, not only with swings and slides.”</blockquote>
+  </footer>
+
+  <script>
+    let score = 0;
+    const planet = document.getElementById('planet');
+    const scoreDisplay = document.getElementById('score');
+
+    planet.addEventListener('click', () => {
+      score++;
+      scoreDisplay.textContent = score;
+      planet.style.transform = 'scale(1.3)';
+      setTimeout(() => {
+        planet.style.transform = 'scale(1)';
+      }, 150);
+    });
+  </script>
+</body>
+</html>

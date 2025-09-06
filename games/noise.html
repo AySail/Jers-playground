@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noise Maker - Jer's Playground</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #f0f0f0;
+      color: #222;
+      text-align: center;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    button {
+      font-size: 3rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      border-radius: 10px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ccc;
+      color: #666;
+    }
+    footer blockquote {
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>🔊 Noise Maker</h1>
+    <button id="noiseBtn" aria-label="Make noise">🔈 Tap me!</button>
+  </div>
+
+  <footer>
+    <p>Made by Jer</p>
+    <blockquote>“A playground is whatever you find your creative inside, not only with swings and slides.”</blockquote>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('noiseBtn');
+    btn.addEventListener('click', () => {
+      const context = new AudioContext();
+      const o = context.createOscillator();
+      const g = context.createGain();
+      o.type = 'square';
+      o.frequency.setValueAtTime(440, context.currentTime);
+      o.connect(g);
+      g.connect(context.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.3);
+      o.stop(context.currentTime + 0.3);
+    });
+  </script>
+</body>
+</html>

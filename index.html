@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jer's Playground</title>
+   
+  <meta name="description" content="Tiny games and silly experiments, just for fun." />
+  <meta name="author" content="Jer" />
+  <meta name="keywords" content="games, mini games, silly games, playground, fun, experiments" />
+  
+  <!-- Open Graph (social sharing) -->
+  <meta property="og:title" content="Jer's Playground" />
+  <meta property="og:description" content="Tiny games and silly experiments, just for fun." />
+  <meta property="og:image" content="https://aysail.github.io/jers-playground/preview.png" />
+  <meta property="og:url" content="https://aysail.github.io/jers-playground/" />
+  
+  <meta name="twitter:card" content="summary_large_image" /> 
+  <style>
+    /* ========= RESET + BASE ========= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========= THEME VARIABLES ========= */
+    :root {
+      --bg: #fdf6e3;
+      --text: #222;
+      --card-bg: #fff;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #f5f5f5;
+      --card-bg: #1e1e1e;
+      --card-shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    body.rainbow {
+      --bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      --text: #111;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --card-shadow: rgba(0, 0, 0, 0.15);
+    }
+
+    /* ========= HEADER ========= */
+    header {
+      padding: 2rem 1rem 1rem;
+      text-align: center;
+      background-color: var(--card-bg);
+      box-shadow: 0 2px 5px var(--card-shadow);
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    .tagline {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+    .theme-toggle button {
+      margin: 0.3rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ========= GAME FILTERS ========= */
+    #filters {
+      margin: 1rem auto;
+      text-align: center;
+    }
+    #filters button {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--text);
+      padding: 0.4rem 0.8rem;
+      margin: 0.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #filters button:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* ========= GAME GRID ========= */
+    .game-grid {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .game-card {
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px var(--card-shadow);
+      text-decoration: none;
+      transition: transform 0.2s;
+      text-align: center;
+    }
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+    .card-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .tags {
+      font-size: 0.85rem;
+      color: gray;
+    }
+
+    /* ========= FOOTER ========= */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: auto;
+      background: var(--card-bg);
+      box-shadow: 0 -2px 5px var(--card-shadow);
+    }
+    footer blockquote {
+      font-style: italic;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎮 Jer's Playground</h1>
+    <p class="tagline">Tiny games and silly experiments, just for fun!</p>
+    <div class="theme-toggle">
+      <button onclick="setTheme('light')">🌞</button>
+      <button onclick="setTheme('dark')">🌙</button>
+      <button onclick="setTheme('rainbow')">🌈</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tag filters -->
+    <div id="filters">
+      <button onclick="filterGames('all')">All</button>
+      <button onclick="filterGames('silly')">Silly</button>
+      <button onclick="filterGames('physics')">Physics</button>
+      <button onclick="filterGames('weird')">Weird</button>
+      <button onclick="filterGames('creative')">Creative</button>
+      <button onclick="filterGames('art')">Art</button>
+      <button onclick="filterGames('challenge')">Challenge</button>
+      <button onclick="filterGames('speed')">Speed</button>
+      <button onclick="filterGames('word')">Word</button>
+      <button onclick="filterGames('puzzle')">Puzzle</button>
+      <button onclick="filterGames('quiz')">Quiz</button>
+      <button onclick="filterGames('sandbox')">Sandbox</button>
+      <button onclick="filterGames('shapes')">Shapes</button>
+      <button onclick="filterGames('space')">Space</button>
+    </div>
+
+    <!-- Game grid -->
+    <section class="game-grid">
+      <a href="games/bounce.html" class="game-card" data-tags="silly physics">
+        <div class="card-emoji">🧸</div>
+        <h2>Bouncy Box</h2>
+        <p class="tags">#silly #physics</p>
+      </a>
+
+      <a href="games/noise.html" class="game-card" data-tags="weird">
+        <div class="card-emoji">🔊</div>
+        <h2>Noise Maker</h2>
+        <p class="tags">#weird</p>
+      </a>
+
+      <a href="games/PaintParty.html" class="game-card" data-tags="creative art">
+        <div class="card-emoji">🎨</div>
+        <h2>Paint Party</h2>
+        <p class="tags">#creative #art</p>
+      </a>
+
+      <a href="games/ClickChallenge.html" class="game-card" data-tags="challenge speed">
+        <div class="card-emoji">🎯</div>
+        <h2>Click Challenge</h2>
+        <p class="tags">#challenge #speed</p>
+      </a>
+
+      <a href="games/customwordle.html" class="game-card" data-tags="word puzzle">
+        <div class="card-emoji">🟩</div>
+        <h2>Custom Wordle</h2>
+        <p class="tags">#word #puzzle</p>
+      </a>
+
+      <a href="games/geographyquiz.html" class="game-card" data-tags="quiz geography">
+        <div class="card-emoji">🌍</div>
+        <h2>Geography Quiz</h2>
+        <p class="tags">#quiz #geography</p>
+      </a>
+
+      <a href="games/SandboxMode.html" class="game-card" data-tags="sandbox creative">
+        <div class="card-emoji">🧱</div>
+        <h2>Sandbox Mode</h2>
+        <p class="tags">#sandbox #creative</p>
+      </a>
+
+      <a href="games/ShapeSorter.html" class="game-card" data-tags="shapes puzzle">
+        <div class="card-emoji">🔺</div>
+        <h2>Shape Sorter</h2>
+        <p class="tags">#shapes #puzzle</p>
+      </a>
+
+      <a href="games/AstroTap.html" class="game-card" data-tags="space tap">
+        <div class="card-emoji">🪐</div>
+        <h2>Astro Tap</h2>
+        <p class="tags">#space #tap</p>
+      </a>
+
+      <!-- Hidden Easter Egg Game -->
+      <a href="games/easteregg.html" class="game-card" data-tags="hidden easteregg" style="display:none;">
+        <div class="card-emoji">🥚</div>
+        <h2>???</h2>
+        <p class="tags">#hidden #easteregg</p>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made by Jer</p>
+    <blockquote>
+      “A playground is whatever you find your creative inside, not only with swings and slides.”
+    </blockquote>
+  </footer>
+
+  <script>
+    // ========= THEME HANDLING ========= //
+    function setTheme(theme) {
+      document.body.classList.remove('light', 'dark', 'rainbow');
+      document.body.classList.add(theme);
+      localStorage.setItem('theme', theme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+
+    // ========= GAME FILTERING ========= //
+    function filterGames(tag) {
+      const games = document.querySelectorAll('.game-card');
+      games.forEach(game => {
+        const tags = game.dataset.tags.split(' ');
+        if (tag === 'all' || tags.includes(tag)) {
+          game.style.display = '';
+        } else {
+          game.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

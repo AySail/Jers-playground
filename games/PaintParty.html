@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paint Party 🎉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      background: #fff9f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+      height: 100vh;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    h1 {
+      margin: 1rem 0 0.5rem;
+      color: #ff6f61;
+      user-select: none;
+    }
+    #toolbar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #toolbar label {
+      font-weight: bold;
+      color: #333;
+      user-select: none;
+    }
+    #color-picker {
+      width: 36px;
+      height: 36px;
+      border: 2px solid #ff6f61;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    #brush-size {
+      width: 100px;
+      cursor: pointer;
+    }
+    button, input[type=checkbox] {
+      cursor: pointer;
+      user-select: none;
+    }
+    button {
+      background: #ff6f61;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #e85b50;
+    }
+    #canvas-container {
+      flex-grow: 1;
+      width: 100%;
+      max-width: 800px;
+      border: 3px solid #ff6f61;
+      border-radius: 12px;
+      background: white;
+      touch-action: none; /* prevent touch scroll */
+      box-shadow: 0 4px 15px rgba(255,111,97,0.4);
+      position: relative;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+    @media (max-width: 600px) {
+      canvas {
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 Paint Party</h1>
+  
+  <div id="toolbar">
+    <label for="color-picker">Brush Color:</label>
+    <input type="color" id="color-picker" value="#ff6f61" />
+
+    <label for="brush-size">Brush Size:</label>
+    <input type="range" id="brush-size" min="1" max="50" value="5" />
+
+    <label>
+      <input type="checkbox" id="eraser-toggle" />
+      Eraser
+    </label>
+
+    <button id="clear-btn" title="Clear Canvas">Clear 🧹</button>
+    <button id="download-btn" title="Download Drawing">Download 📥</button>
+  </div>
+
+  <div id="canvas-container">
+    <canvas id="paint-canvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("paint-canvas");
+    const ctx = canvas.getContext("2d");
+    const colorPicker = document.getElementById("color-picker");
+    const brushSizeInput = document.getElementById("brush-size");
+    const clearBtn = document.getElementById("clear-btn");
+    const downloadBtn = document.getElementById("download-btn");
+    const eraserToggle = document.getElementById("eraser-toggle");
+
+    // Set initial canvas size and resize handling
+    function resizeCanvas() {
+      const container = document.getElementById("canvas-container");
+      // Save current drawing before resize
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+
+      // Restore saved drawing
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Start drawing
+    function startDrawing(e) {
+      drawing = true;
+      const [x, y] = getPointerPosition(e);
+      lastX = x;
+      lastY = y;
+      e.preventDefault();
+    }
+
+    // Draw on canvas
+    function draw(e) {
+      if (!drawing) return;
+      e.preventDefault();
+
+      const [x, y] = getPointerPosition(e);
+
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = brushSizeInput.value;
+
+      if(eraserToggle.checked) {
+        ctx.globalCompositeOperation = "destination-out"; // Erase mode
+        ctx.strokeStyle = "rgba(0,0,0,1)";
+      } else {
+        ctx.globalCompositeOperation = "source-over"; // Draw mode
+        ctx.strokeStyle = colorPicker.value;
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+
+      lastX = x;
+      lastY = y;
+    }
+
+    // Stop drawing
+    function stopDrawing(e) {
+      if (!drawing) return;
+      drawing = false;
+      e.preventDefault();
+    }
+
+    // Get pointer position relative to canvas with proper scaling fix
+    function getPointerPosition(e) {
+      const rect = canvas.getBoundingClientRect();
+      let clientX, clientY;
+      if (e.touches) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      // Calculate scale between canvas CSS size and actual pixel size
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      return [
+        (clientX - rect.left) * scaleX,
+        (clientY - rect.top) * scaleY
+      ];
+    }
+
+    // Clear canvas button
+    clearBtn.addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Download canvas as PNG
+    downloadBtn.addEventListener("click", () => {
+      const link = document.createElement("a");
+      link.download = "paintparty.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+
+    // Mouse events
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseout", stopDrawing);
+
+    // Touch events
+    canvas.addEventListener("touchstart", startDrawing);
+    canvas.addEventListener("touchmove", draw);
+    canvas.addEventListener("touchend", stopDrawing);
+    canvas.addEventListener("touchcancel", stopDrawing);
+
+  </script>
+
+</body>
+</html>
