@@ -15,15 +15,12 @@ Simply browse the games, click to play, and have fun! Feel free to contribute ne
 
 ## About
 Created by Jer ([@aysail](https://github.com/aysail)) as a personal playground to experiment with web games and share joy.
+
 ---
 
-Enjoy your time in the playground! 🕹️
+**Enjoy your time in the playground! 🕹️**
 
-
-
-
-
-
+---
 
 ## 🎨 Modding Jer's Playground Games 
 
@@ -101,7 +98,7 @@ If you made something cool or fixed something broken, feel free to open a pull r
 
 If your mod works and you want it added:
 
-1. Make sure it’s fun and safe  
+1. Make sure it’s fun and Family Friendly (We only allow family friendly games on the site)  
 2. Credit yourself inside the file (like in a comment)  
 3. Submit a **pull request** to the main repo
 
