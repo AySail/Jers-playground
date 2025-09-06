@@ -30,11 +30,10 @@ Modding is a way of adding new stuff to Jer’s Playground games — whether it�
 
 If you made something cool or fixed something broken, feel free to open a pull request!
 
-> ⚠️ Modding must give credit to Jer’s Playground.  
-> Do **not** sell modified versions of any games.  
-> If you publish your mod somewhere (like your own site), include a link back to this repo or the official site.
+> 📜 **License**  
+> This project is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).  
+> Feel free to remix, share, or mod — just **credit**, **don’t sell**, and **link back** to this repo!
 
----
 
 ### 🛠️ How to Mod a Game
 
